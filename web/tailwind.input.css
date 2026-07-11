@@ -1,0 +1,20 @@
+/* Tailwind v4 input — not embedded in the binary.
+   Regenerate web/static/css/tailwind.css with `make css` after
+   adding/removing Tailwind classes in templates or app.js. */
+@import "tailwindcss" source(none);
+
+@source "./templates";
+@source "./static/js";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* Tailwind v4 preflight makes buttons cursor:default; keep the v3 behavior */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

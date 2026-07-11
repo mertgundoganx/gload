@@ -1,0 +1,334 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "title": "Running Tests",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "red", "value": 3 }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "targets": [
+        { "expr": "gload_running_tests", "legendFormat": "Running", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Total Services",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "blue" },
+          "unit": "none"
+        }
+      },
+      "targets": [
+        { "expr": "gload_total_services", "legendFormat": "Services", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Tests Completed",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "green" },
+          "unit": "none"
+        }
+      },
+      "targets": [
+        { "expr": "gload_tests_completed_total", "legendFormat": "Completed", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Tests Failed",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "targets": [
+        { "expr": "gload_tests_failed_total", "legendFormat": "Failed", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Total Requests Made",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "purple" },
+          "unit": "short"
+        }
+      },
+      "targets": [
+        { "expr": "gload_requests_total", "legendFormat": "Requests", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Total Errors",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 100 },
+              { "color": "red", "value": 1000 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "targets": [
+        { "expr": "gload_errors_total", "legendFormat": "Errors", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Last Test — RPS",
+      "type": "gauge",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "continuous-GrYlRd" },
+          "min": 0,
+          "max": 1000,
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 50 },
+              { "color": "green", "value": 100 }
+            ]
+          },
+          "unit": "reqps"
+        }
+      },
+      "targets": [
+        { "expr": "gload_last_rps", "legendFormat": "RPS", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Last Test — Avg Latency",
+      "type": "gauge",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "continuous-RdYlGr" },
+          "min": 0,
+          "max": 1000,
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 200 },
+              { "color": "red", "value": 500 }
+            ]
+          },
+          "unit": "ms"
+        }
+      },
+      "targets": [
+        { "expr": "gload_last_avg_latency_ms", "legendFormat": "Avg Latency", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Last Test — P95 Latency",
+      "type": "gauge",
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "continuous-RdYlGr" },
+          "min": 0,
+          "max": 2000,
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 300 },
+              { "color": "red", "value": 1000 }
+            ]
+          },
+          "unit": "ms"
+        }
+      },
+      "targets": [
+        { "expr": "gload_last_p95_latency_ms", "legendFormat": "P95", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Last Test — Error Rate",
+      "type": "gauge",
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "continuous-GrYlRd" },
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 2 },
+              { "color": "red", "value": 10 }
+            ]
+          },
+          "unit": "percent"
+        }
+      },
+      "targets": [
+        { "expr": "gload_last_error_rate", "legendFormat": "Error Rate", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Tests Over Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 15,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Failed" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Completed" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "green" } }]
+          }
+        ]
+      },
+      "targets": [
+        { "expr": "gload_tests_completed_total", "legendFormat": "Completed", "datasource": "Prometheus" },
+        { "expr": "gload_tests_failed_total", "legendFormat": "Failed", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Requests & Errors Over Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 15
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Errors" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Requests" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "purple" } }]
+          }
+        ]
+      },
+      "targets": [
+        { "expr": "rate(gload_requests_total[5m])", "legendFormat": "Requests", "datasource": "Prometheus" },
+        { "expr": "rate(gload_errors_total[5m])", "legendFormat": "Errors", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "RPS Over Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "cyan" },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 20,
+            "gradientMode": "scheme"
+          },
+          "unit": "reqps"
+        }
+      },
+      "targets": [
+        { "expr": "gload_last_rps", "legendFormat": "RPS", "datasource": "Prometheus" }
+      ]
+    },
+    {
+      "title": "Latency Over Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 15
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "P95" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Avg" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "blue" } }]
+          }
+        ]
+      },
+      "targets": [
+        { "expr": "gload_last_avg_latency_ms", "legendFormat": "Avg", "datasource": "Prometheus" },
+        { "expr": "gload_last_p95_latency_ms", "legendFormat": "P95", "datasource": "Prometheus" }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["gload", "load-testing", "performance"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "gload - Load Testing Dashboard",
+  "uid": "gload-dashboard",
+  "version": 1
+}

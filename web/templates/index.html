@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gload | Load & Performance Testing</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13 2L4.09 12.63a1 1 0 00.76 1.63H11v5.74a1 1 0 001.76.65L21.67 9.37A1 1 0 0020.91 7.74H15V2.26A1 1 0 0013 2z' fill='%237c3aed'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/tailwind.css">
+    <link rel="stylesheet" href="/static/css/app.css">
+    <script>
+        // Apply the saved theme before first paint to avoid a flash of the
+        // wrong theme (FOUC). The app's JS re-applies this on load too.
+        (function () {
+            try {
+                var t = localStorage.getItem('gload_theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+</head>
+<body class="h-full font-sans antialiased" style="background:var(--bg); color:var(--text);">
+
+    <!-- Top Nav -->
+    <nav class="sticky top-0 z-50 border-b border-slate-700/50" style="background:var(--nav-bg); backdrop-filter:blur(14px);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="#/" class="flex items-center gap-2 hover:opacity-80 transition-opacity select-none">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"><path d="M13 2L4.09 12.63a1 1 0 00.76 1.63H11v5.74a1 1 0 001.76.65L21.67 9.37A1 1 0 0020.91 7.74H15V2.26A1 1 0 0013 2z" fill="url(#bolt)"/><defs><linearGradient id="bolt" x1="4" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#c4b5fd"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs></svg>
+                    <span class="text-lg font-extrabold tracking-tight text-gradient">gload</span>
+                </a>
+                <!-- Global running-test indicator, populated by updateGlobalRunning() -->
+                <a id="global-running-indicator" href="#/" class="items-center px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity hover:opacity-80" style="display:none; gap:6px; background:rgba(16,185,129,0.12); color:#10b981; border:1px solid rgba(16,185,129,0.3);"></a>
+            </div>
+
+            <!-- Desktop nav -->
+            <div class="hidden md:flex items-center gap-2" id="desktop-nav">
+                <div id="workspace-selector"></div>
+                <a href="#/" id="nav-dashboard" class="nav-link text-sm font-medium px-3 py-1.5 rounded-lg">Dashboard</a>
+                <a href="#/queue" id="nav-queue" class="nav-link text-sm font-medium px-3 py-1.5 rounded-lg">Queue</a>
+                <a href="#/schedules" id="nav-schedules" class="nav-link text-sm font-medium px-3 py-1.5 rounded-lg">Schedules</a>
+                <a href="#/plugins" id="nav-plugins" class="nav-link text-sm font-medium px-3 py-1.5 rounded-lg">Plugins</a>
+                <a href="#/settings" id="nav-settings" class="nav-link text-sm font-medium px-3 py-1.5 rounded-lg">Settings</a>
+                <button onclick="showShortcutsModal()" class="p-2 rounded-lg hover:bg-slate-700/30 transition-colors" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">
+                    <svg class="w-4 h-4" style="color:var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </button>
+                <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-700/30 transition-colors" title="Toggle theme (T)" aria-label="Toggle light/dark theme">
+                    <!-- icon set by JS -->
+                </button>
+                <a href="#/services/new" class="btn btn-primary btn-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    <span>New Service</span>
+                </a>
+            </div>
+
+            <!-- Mobile hamburger -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-700/30 transition-colors" id="mobile-menu-btn" title="Menu" aria-label="Open navigation menu">
+                <svg class="w-5 h-5" style="color:var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile menu (hidden by default) -->
+        <div class="md:hidden hidden border-t border-slate-700/50 px-4 py-3 space-y-2" id="mobile-menu" style="background:var(--bg);">
+            <a href="#/" class="block py-2 px-3 rounded-lg text-sm font-medium nav-link">Dashboard</a>
+            <a href="#/queue" class="block py-2 px-3 rounded-lg text-sm font-medium nav-link">Queue</a>
+            <a href="#/schedules" class="block py-2 px-3 rounded-lg text-sm font-medium nav-link">Schedules</a>
+            <a href="#/plugins" class="block py-2 px-3 rounded-lg text-sm font-medium nav-link">Plugins</a>
+            <a href="#/settings" class="block py-2 px-3 rounded-lg text-sm font-medium nav-link">Settings</a>
+            <button onclick="toggleTheme()" id="mobile-theme-toggle" class="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium nav-link w-full text-left">
+                <span id="mobile-theme-icon"></span> Toggle Theme
+            </button>
+            <a href="#/services/new" class="block py-2 px-3 rounded-lg text-sm font-medium btn btn-primary text-center">New Service</a>
+        </div>
+    </nav>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <!-- Modal container -->
+    <div id="modal-container"></div>
+
+    <!-- App -->
+    <main id="app" class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8"></main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
