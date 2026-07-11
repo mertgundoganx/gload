@@ -826,10 +826,6 @@ func (s *Storage) PurgeOldResults(before time.Time) (int64, error) {
 
 // ---------- scan helpers ----------
 
-type scanner interface {
-	Scan(dest ...interface{}) error
-}
-
 func scanService(rows *sql.Rows) (Service, error) {
 	var svc Service
 	var headersStr string

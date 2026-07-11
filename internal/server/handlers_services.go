@@ -549,7 +549,7 @@ func (s *Server) handleImport(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleBulkDelete(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "method not allowed", 405)
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 	var body struct {

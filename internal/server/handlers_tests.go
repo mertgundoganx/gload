@@ -1099,7 +1099,7 @@ func (s *Server) runQueuedTest(serviceID int64, runType ...string) {
 
 func (s *Server) handleBulkQueueAdd(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "method not allowed", 405)
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 	var body struct {

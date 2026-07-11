@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   its maintained successor `github.com/coder/websocket` (drop-in, no behavior
   change).
 
+### Internal
+
+- Replaced numeric HTTP status literals with `http.StatusMethodNotAllowed` and
+  removed an unused interface (staticcheck cleanups).
+
 ## [1.0.0] - 2026-07-12
 
 First public release. gload is a high-performance HTTP load tester with a full
