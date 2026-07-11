@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Replaced numeric HTTP status literals with `http.StatusMethodNotAllowed` and
   removed an unused interface (staticcheck cleanups).
+- Added a `.golangci.yml` config and made the codebase pass `golangci-lint`
+  cleanly: intentionally-ignored errors are now explicit (`_ =`) and
+  stylistic-only checks are quieted.
 
 ## [1.0.0] - 2026-07-12
 

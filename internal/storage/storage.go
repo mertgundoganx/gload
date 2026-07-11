@@ -271,7 +271,7 @@ CREATE INDEX IF NOT EXISTS idx_capacity_runs_service ON capacity_runs(service_id
 		"ALTER TABLE test_results ADD COLUMN run_config TEXT DEFAULT '{}'",
 	}
 	for _, m := range migrations {
-		db.Exec(m) // ignore "duplicate column" errors
+		_, _ = db.Exec(m) // ignore "duplicate column" errors
 	}
 
 	// Indexes for the most common lookups (foreign-key joins and ordering).
@@ -288,13 +288,13 @@ CREATE INDEX IF NOT EXISTS idx_capacity_runs_service ON capacity_runs(service_id
 	}
 
 	// Ensure "Default" workspace always exists.
-	db.Exec(`INSERT OR IGNORE INTO workspaces (name, slug, description) VALUES ('Default', 'default', 'Default workspace')`)
+	_, _ = db.Exec(`INSERT OR IGNORE INTO workspaces (name, slug, description) VALUES ('Default', 'default', 'Default workspace')`)
 
 	// Migrate legacy services (workspace_id=0) to the default workspace.
 	var defaultWSID int64
 	row := db.QueryRow(`SELECT id FROM workspaces WHERE slug = 'default'`)
 	if err := row.Scan(&defaultWSID); err == nil && defaultWSID > 0 {
-		db.Exec(`UPDATE services SET workspace_id = ? WHERE workspace_id = 0`, defaultWSID)
+		_, _ = db.Exec(`UPDATE services SET workspace_id = ? WHERE workspace_id = 0`, defaultWSID)
 	}
 
 	return nil
@@ -834,7 +834,7 @@ func scanService(rows *sql.Rows) (Service, error) {
 	}
 	svc.Headers = make(map[string]string)
 	if headersStr != "" {
-		json.Unmarshal([]byte(headersStr), &svc.Headers)
+		_ = json.Unmarshal([]byte(headersStr), &svc.Headers)
 	}
 	return svc, nil
 }
@@ -847,7 +847,7 @@ func scanServiceRow(row *sql.Row) (Service, error) {
 	}
 	svc.Headers = make(map[string]string)
 	if headersStr != "" {
-		json.Unmarshal([]byte(headersStr), &svc.Headers)
+		_ = json.Unmarshal([]byte(headersStr), &svc.Headers)
 	}
 	return svc, nil
 }
@@ -860,7 +860,7 @@ func scanResult(rows *sql.Rows) (TestResult, error) {
 	}
 	tr.StatusCodes = make(map[int]int)
 	if codesStr != "" {
-		json.Unmarshal([]byte(codesStr), &tr.StatusCodes)
+		_ = json.Unmarshal([]byte(codesStr), &tr.StatusCodes)
 	}
 	return tr, nil
 }
@@ -873,7 +873,7 @@ func scanResultRow(row *sql.Row) (TestResult, error) {
 	}
 	tr.StatusCodes = make(map[int]int)
 	if codesStr != "" {
-		json.Unmarshal([]byte(codesStr), &tr.StatusCodes)
+		_ = json.Unmarshal([]byte(codesStr), &tr.StatusCodes)
 	}
 	return tr, nil
 }

@@ -117,7 +117,7 @@ func (s *Server) runService(w http.ResponseWriter, _ *http.Request, id int64) {
 	// Parse assertions.
 	var assertions []config.Assertion
 	if svc.Assertions != "" && svc.Assertions != "[]" {
-		json.Unmarshal([]byte(svc.Assertions), &assertions)
+		_ = json.Unmarshal([]byte(svc.Assertions), &assertions)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -422,7 +422,7 @@ func (s *Server) runProfile(w http.ResponseWriter, r *http.Request, id int64) {
 	// Parse assertions.
 	var assertions []config.Assertion
 	if svc.Assertions != "" && svc.Assertions != "[]" {
-		json.Unmarshal([]byte(svc.Assertions), &assertions)
+		_ = json.Unmarshal([]byte(svc.Assertions), &assertions)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -696,7 +696,7 @@ func (s *Server) runPattern(w http.ResponseWriter, r *http.Request, id int64) {
 	// Parse assertions.
 	var assertions []config.Assertion
 	if svc.Assertions != "" && svc.Assertions != "[]" {
-		json.Unmarshal([]byte(svc.Assertions), &assertions)
+		_ = json.Unmarshal([]byte(svc.Assertions), &assertions)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -1029,7 +1029,7 @@ func (s *Server) runQueuedTest(serviceID int64, runType ...string) {
 	// Parse assertions.
 	var assertions []config.Assertion
 	if svc.Assertions != "" && svc.Assertions != "[]" {
-		json.Unmarshal([]byte(svc.Assertions), &assertions)
+		_ = json.Unmarshal([]byte(svc.Assertions), &assertions)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())

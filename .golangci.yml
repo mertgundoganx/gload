@@ -1,0 +1,27 @@
+version: "2"
+
+# Standard linters (errcheck, govet, ineffassign, staticcheck, unused) run by
+# default. We keep the bug-catching checks and quiet purely stylistic noise.
+linters:
+  settings:
+    staticcheck:
+      checks:
+        - all
+        - -QF1012 # WriteString(fmt.Sprintf(...)) -> Fprintf is a style preference
+        - -ST1000 # package-comment requirement is optional here
+  exclusions:
+    rules:
+      # Test code often ignores errors deliberately (setup/teardown, decoding
+      # known-good fixtures).
+      - path: _test\.go
+        linters:
+          - errcheck
+      # Best-effort I/O whose errors are conventionally ignored: closing a
+      # connection/file, writing to an HTTP response or in-memory buffer,
+      # flushing, rolling back a finished transaction, etc.
+      - linters:
+          - errcheck
+        text: "Error return value of `[^`]*\\.(Close|Write|WriteString|WriteField|Flush|Rollback|Encode|SetWriteDeadline)` is not checked"
+      - linters:
+          - errcheck
+        text: "Error return value of `(io\\.Copy|fmt\\.Sscanf|fmt\\.Fprint|fmt\\.Fprintf|fmt\\.Fprintln)` is not checked"
