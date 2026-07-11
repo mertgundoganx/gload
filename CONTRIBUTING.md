@@ -11,7 +11,11 @@ Thank you for your interest in contributing to gload. This document provides gui
 5. Run tests: `make test`
 6. Commit: `git commit -m "Add your feature"`
 7. Push: `git push origin feature/your-feature`
-8. Open a Pull Request
+8. Open a Pull Request **against the `development` branch**
+
+> Target the `development` branch, not `main`. `main` is the protected release
+> branch and only receives changes from `development`. A maintainer reviews,
+> approves, and merges pull requests.
 
 ## Development Setup
 

@@ -1251,7 +1251,10 @@ See [Architecture](#architecture) for a detailed breakdown of all packages.
 2. Create a feature branch (`git checkout -b feature/my-feature`).
 3. Write tests for new functionality.
 4. Run `make test && make lint` to validate.
-5. Commit your changes and open a pull request.
+5. Commit your changes and open a pull request **against the `development` branch**.
+
+`main` is the protected release branch; contributions land on `development`
+first. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ---
 
