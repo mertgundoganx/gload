@@ -1,0 +1,22 @@
+name: main PR guard
+
+# Pull requests into main may only originate from the development branch.
+# Make the "from-development" check a required status check on main so any PR
+# from another branch is blocked from merging.
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  from-development:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the PR to come from development
+        if: github.head_ref != 'development'
+        run: |
+          echo "::error::Pull requests into main must come from the 'development' branch (this one is from '${{ github.head_ref }}')."
+          exit 1
