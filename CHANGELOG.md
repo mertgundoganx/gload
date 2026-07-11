@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a `.golangci.yml` config and made the codebase pass `golangci-lint`
   cleanly: intentionally-ignored errors are now explicit (`_ =`) and
   stylistic-only checks are quieted.
+- Wired `golangci-lint` into GitHub Actions CI as a dedicated `lint` job.
 
 ## [1.0.0] - 2026-07-12
 
