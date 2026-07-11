@@ -5,7 +5,7 @@ on:
     branches: [main]
     tags: ['v*']
   pull_request:
-    branches: [main]
+    branches: [main, development]
 
 # Cancel superseded runs on the same branch/PR. Tags have unique refs, so
 # release runs are never cancelled by a later push.
