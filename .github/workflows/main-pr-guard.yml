@@ -15,8 +15,10 @@ jobs:
   from-development:
     runs-on: ubuntu-latest
     steps:
-      - name: Require the PR to come from development
-        if: github.head_ref != 'development'
+      - name: Require the PR to come from this repo's development branch
+        if: >-
+          github.head_ref != 'development' ||
+          github.event.pull_request.head.repo.full_name != github.repository
         run: |
-          echo "::error::Pull requests into main must come from the 'development' branch (this one is from '${{ github.head_ref }}')."
+          echo "::error::Pull requests into main must come from the 'development' branch of this repository (a fork or another branch is not allowed)."
           exit 1
