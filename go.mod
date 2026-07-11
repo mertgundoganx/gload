@@ -5,8 +5,8 @@ go 1.26
 require (
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
+	github.com/coder/websocket v1.8.15
 	modernc.org/sqlite v1.53.0
-	nhooyr.io/websocket v1.8.17
 )
 
 require (

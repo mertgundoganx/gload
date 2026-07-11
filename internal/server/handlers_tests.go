@@ -14,8 +14,8 @@ import (
 	"github.com/mertgundoganx/gload/internal/runner"
 	"github.com/mertgundoganx/gload/pkg/config"
 
-	"nhooyr.io/websocket"
-	"nhooyr.io/websocket/wsjson"
+	"github.com/coder/websocket"
+	"github.com/coder/websocket/wsjson"
 )
 
 // ---------- Run / Stop / Stream ----------

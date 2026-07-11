@@ -15,7 +15,7 @@ import (
 
 	"github.com/mertgundoganx/gload/internal/storage"
 
-	"nhooyr.io/websocket"
+	"github.com/coder/websocket"
 )
 
 func setupTestServer(t *testing.T) (*Server, *httptest.Server) {

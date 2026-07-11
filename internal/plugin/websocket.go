@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"nhooyr.io/websocket"
+	"github.com/coder/websocket"
 )
 
 // WebSocketPlugin tests WebSocket endpoints with configurable message patterns.
