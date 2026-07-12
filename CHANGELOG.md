@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Internal
+
+- Bumped GitHub Actions to their Node 24 runtimes (`golangci-lint-action` v9,
+  `docker/*` v4–v7) to clear the Node 20 deprecation warnings.
+
 ## [1.0.1] - 2026-07-12
 
 ### Changed
