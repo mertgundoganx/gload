@@ -23,7 +23,7 @@ import (
 )
 
 // AppVersion is set from main to expose via the /api/version endpoint.
-var AppVersion = "1.0.2"
+var AppVersion = "1.1.0"
 
 type runState struct {
 	runner   *runner.Runner
