@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Fixed a DOM-based XSS where a crafted URL hash (e.g.
+  `#/services/<markup>`) could inject markup through the client-side router.
+  Service ids parsed from the route are now coerced to numbers before use.
+
 ### Internal
 
 - Bumped GitHub Actions to their Node 24 runtimes (`golangci-lint-action` v9,
