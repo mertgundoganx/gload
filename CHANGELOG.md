@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added a "How it compares" table to the README (positioning against k6,
   vegeta, hey, wrk, and Locust).
+- Added an animated demo (`docs/demo.webp`) to the top of the README.
 
 ## [1.0.2] - 2026-07-12
 

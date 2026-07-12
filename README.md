@@ -13,6 +13,10 @@
   <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
+<p align="center">
+  <img src="docs/demo.webp" alt="gload web UI — a live load test streaming real-time RPS and latency charts, then an auto-ramping capacity probe" width="900">
+</p>
+
 ---
 
 gload is a load-testing tool that grows with you. Fire a quick test from the terminal, or open the web dashboard to manage services, watch live charts, keep result history, and run realistic multi-stage scenarios. The engine is built for real throughput — sharded, lock-light metrics that stay out of the way so your CPU goes into actual requests, not bookkeeping.
