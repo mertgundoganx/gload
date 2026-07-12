@@ -90,6 +90,8 @@ func (s *Server) handleServiceRoute(w http.ResponseWriter, r *http.Request) {
 		s.resultsService(w, r, id)
 	case action == "history" && r.Method == http.MethodGet:
 		s.historyService(w, r, id)
+	case action == "history" && r.Method == http.MethodDelete:
+		s.clearServiceHistory(w, r, id)
 	case action == "clone" && r.Method == http.MethodPost:
 		s.cloneService(w, r, id)
 	case action == "run-profile" && r.Method == http.MethodPost:

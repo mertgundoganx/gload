@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -856,24 +857,38 @@ func (s *Server) getQueue(w http.ResponseWriter, _ *http.Request) {
 	running := s.queueRunning
 	s.queueMu.Unlock()
 
-	// "Currently running" reflects any in-flight test (queue or manual).
-	var currentID int64
+	// Collect every in-flight test (manual concurrent runs and any queue run),
+	// not just one, so the UI can list them all. Snapshot ids under the lock,
+	// then resolve names without holding it (GetService hits the DB).
 	s.mu.RLock()
-	for id := range s.runs {
-		currentID = id
-		break
+	type runInfo struct {
+		id   int64
+		kind string
 	}
-	runningCount := len(s.runs)
+	infos := make([]runInfo, 0, len(s.runs))
+	for id, rs := range s.runs {
+		infos = append(infos, runInfo{id: id, kind: rs.kind})
+	}
 	s.mu.RUnlock()
+	sort.Slice(infos, func(i, j int) bool { return infos[i].id < infos[j].id })
+	runningCount := len(infos)
 
+	runningTests := make([]map[string]interface{}, 0, len(infos))
 	var currentEntry *queueEntry
-	if currentID > 0 {
-		svc, _ := s.store.GetService(currentID)
-		name := fmt.Sprintf("Service #%d", currentID)
+	for _, in := range infos {
+		svc, _ := s.store.GetService(in.id)
+		name := fmt.Sprintf("Service #%d", in.id)
 		if svc != nil {
 			name = svc.Name
 		}
-		currentEntry = &queueEntry{ServiceID: currentID, Name: name}
+		runningTests = append(runningTests, map[string]interface{}{
+			"service_id": in.id,
+			"name":       name,
+			"kind":       in.kind,
+		})
+		if currentEntry == nil {
+			currentEntry = &queueEntry{ServiceID: in.id, Name: name}
+		}
 	}
 
 	pending := make([]queueEntry, 0, len(items))
@@ -887,9 +902,10 @@ func (s *Server) getQueue(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, map[string]interface{}{
-		"items":   pending,
-		"current": currentEntry,
-		"running": running || runningCount > 0,
+		"items":         pending,
+		"current":       currentEntry,
+		"running_tests": runningTests,
+		"running":       running || runningCount > 0,
 	})
 }
 

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Clear history** — a service page button that deletes all of a service's
+  test results and capacity-probe runs, resetting it to its freshly-created
+  state while keeping its configuration.
+
+### Fixed
+
+- The dashboard and queue now list **every** concurrently running test, not
+  just one. Running several tests at once previously surfaced only the first.
+
 ### Internal
 
 - Added a "How it compares" table to the README (positioning against k6,

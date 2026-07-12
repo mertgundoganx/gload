@@ -1154,6 +1154,12 @@ func (s *Storage) DeleteCapacityRun(serviceID, runID int64) error {
 	return err
 }
 
+// DeleteCapacityRunsByService removes every capacity-probe run for a service.
+func (s *Storage) DeleteCapacityRunsByService(serviceID int64) error {
+	_, err := s.db.Exec(`DELETE FROM capacity_runs WHERE service_id = ?`, serviceID)
+	return err
+}
+
 // ListCapacityRuns returns a service's capacity-probe runs, newest first.
 func (s *Storage) ListCapacityRuns(serviceID int64) ([]CapacityRun, error) {
 	rows, err := s.db.Query(
