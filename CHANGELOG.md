@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed a DOM-based XSS where a crafted URL hash (e.g.
   `#/services/<markup>`) could inject markup through the client-side router.
   Service ids parsed from the route are now coerced to numbers before use.
+- Bounded the rate-limiter's channel buffer so an extreme requests-per-second
+  value can no longer trigger an oversized allocation.
 
 ### Internal
 
