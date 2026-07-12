@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Internal
+
+- Corrected the "How it compares" table (hey and wrk licenses; k6's
+  experimental built-in dashboard) and linked gload.dev under the README badges.
+
 ## [1.1.0] - 2026-07-12
 
 ### Added
