@@ -13,6 +13,10 @@
   <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
+<p align="center">
+  <img src="docs/demo.webp" alt="gload web UI — a live load test streaming real-time RPS and latency charts, then an auto-ramping capacity probe" width="900">
+</p>
+
 ---
 
 gload is a load-testing tool that grows with you. Fire a quick test from the terminal, or open the web dashboard to manage services, watch live charts, keep result history, and run realistic multi-stage scenarios. The engine is built for real throughput — sharded, lock-light metrics that stay out of the way so your CPU goes into actual requests, not bookkeeping.
@@ -32,6 +36,7 @@ gload is a load-testing tool that grows with you. Fire a quick test from the ter
 ## Table of Contents
 
 - [Features](#features)
+- [How it compares](#how-it-compares)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
 - [Web UI Guide](#web-ui-guide)
@@ -122,6 +127,33 @@ gload is a load-testing tool that grows with you. Fire a quick test from the ter
 | JUnit XML | Standard test report format for CI systems |
 | cURL import | Create services from browser DevTools exports |
 | Scheduled tests | Cron-based recurring test execution |
+
+---
+
+## How it compares
+
+Each of these tools is excellent at what it targets. gload's angle is
+*batteries-included UI plus capacity and launch-day answers* — not raw
+minimalism or scripting depth.
+
+| | **gload** | k6 | vegeta | hey | wrk | Locust |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|
+| Language | Go | Go | Go | Go | C | Python |
+| Single binary | ✅ | ✅ | ✅ | ✅ | build | ❌ |
+| Built-in web UI | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Live dashboard | ✅ | Grafana¹ | ❌ | ❌ | ❌ | ✅ |
+| Result history & compare | ✅ | ❌ | ❌ | ❌ | ❌ | ~ |
+| Capacity-knee finder | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Launch/spike verdict | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Protocols beyond HTTP | WS · GraphQL · gRPC · TCP | WS · gRPC | — | — | — | code |
+| No-code scenarios | ✅ | JS | — | — | Lua | Python |
+| Distributed | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| CI (JUnit / PR comments) | ✅ | ✅ | ~ | ❌ | ❌ | ~ |
+| License | MIT | AGPL-3 | MIT | MIT | Apache-2 | MIT |
+
+<sub>¹ via external Grafana dashboards / k6 Cloud. This table is a positioning
+aid: k6 is more scriptable, wrk is faster at the raw level, and hey/vegeta are
+deliberately simple. Pick what fits your job.</sub>
 
 ---
 
