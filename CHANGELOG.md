@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Internal
+
+- Added a "How it compares" table to the README (positioning against k6,
+  vegeta, hey, wrk, and Locust).
+
 ## [1.0.2] - 2026-07-12
 
 ### Security
