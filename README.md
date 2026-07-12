@@ -13,6 +13,8 @@
   <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen">
 </p>
 
+<p align="center"><a href="https://gload.dev"><b>gload.dev</b></a></p>
+
 <p align="center">
   <img src="docs/demo.png" alt="gload web dashboard — three services with live RPS, latency, and error-rate metrics" width="900">
 </p>
@@ -140,7 +142,7 @@ minimalism or scripting depth.
 |---|:--:|:--:|:--:|:--:|:--:|:--:|
 | Language | Go | Go | Go | Go | C | Python |
 | Single binary | ✅ | ✅ | ✅ | ✅ | build | ❌ |
-| Built-in web UI | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Built-in web UI | ✅ | exp. | ❌ | ❌ | ❌ | ✅ |
 | Live dashboard | ✅ | Grafana¹ | ❌ | ❌ | ❌ | ✅ |
 | Result history & compare | ✅ | ❌ | ❌ | ❌ | ❌ | ~ |
 | Capacity-knee finder | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
@@ -149,11 +151,13 @@ minimalism or scripting depth.
 | No-code scenarios | ✅ | JS | — | — | Lua | Python |
 | Distributed | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | CI (JUnit / PR comments) | ✅ | ✅ | ~ | ❌ | ❌ | ~ |
-| License | MIT | AGPL-3 | MIT | MIT | Apache-2 | MIT |
+| License | MIT | AGPL-3 | MIT | Apache-2 | Apache-2² | MIT |
 
-<sub>¹ via external Grafana dashboards / k6 Cloud. This table is a positioning
-aid: k6 is more scriptable, wrk is faster at the raw level, and hey/vegeta are
-deliberately simple. Pick what fits your job.</sub>
+<sub>¹ via external Grafana dashboards / k6 Cloud. "exp." = k6's built-in web
+dashboard, experimental since v0.48 (`K6_WEB_DASHBOARD=true`). ² wrk ships a
+modified Apache-2.0 license. This table is a positioning aid: k6 is more
+scriptable, wrk is faster at the raw level, and hey/vegeta are deliberately
+simple. Pick what fits your job.</sub>
 
 ---
 
