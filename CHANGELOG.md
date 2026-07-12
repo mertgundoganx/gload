@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Corrected the "How it compares" table (hey and wrk licenses; k6's
   experimental built-in dashboard) and linked gload.dev under the README badges.
+- Replaced the README hero screenshot with an animated terminal demo of the
+  gload CLI (`docs/terminal.webp`).
 
 ## [1.1.0] - 2026-07-12
 

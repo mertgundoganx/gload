@@ -16,7 +16,7 @@
 <p align="center"><a href="https://gload.dev"><b>gload.dev</b></a></p>
 
 <p align="center">
-  <img src="docs/demo.png" alt="gload web dashboard — three services with live RPS, latency, and error-rate metrics" width="900">
+  <img src="docs/terminal.webp" alt="gload CLI running a 5-second load test and printing the results — requests, RPS, error rate, and latency percentiles" width="820">
 </p>
 
 ---
