@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-07-12
+
 ### Changed
 
 - Migrated the WebSocket library from the deprecated `nhooyr.io/websocket` to
@@ -131,4 +133,6 @@ web UI — from a one-line CLI test to answering "can my system survive launch d
 - Multi-tenancy with workspaces; data-retention policy (auto-purge old results).
 - Import/export services as JSON.
 
+[Unreleased]: https://github.com/mertgundoganx/gload/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/mertgundoganx/gload/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/mertgundoganx/gload/releases/tag/v1.0.0
