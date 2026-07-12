@@ -456,6 +456,20 @@ func (s *Server) deleteCapacityRun(w http.ResponseWriter, _ *http.Request, servi
 	writeJSON(w, http.StatusOK, map[string]string{"status": "deleted"})
 }
 
+// clearServiceHistory deletes all stored results and capacity-probe runs for a
+// service, resetting it to its freshly-created state while keeping its config.
+func (s *Server) clearServiceHistory(w http.ResponseWriter, _ *http.Request, serviceID int64) {
+	if err := s.store.DeleteResultsByService(serviceID); err != nil {
+		dbError(w, err)
+		return
+	}
+	if err := s.store.DeleteCapacityRunsByService(serviceID); err != nil {
+		dbError(w, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]string{"status": "cleared"})
+}
+
 // ---------- compare report ----------
 
 type compareEntry struct {

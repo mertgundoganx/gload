@@ -1201,10 +1201,12 @@ function renderDashboard() {
         </div>
     </div>` : '';
 
-    // Queue panel
+    // Queue panel — lists every in-flight test (concurrent runs and any queue
+    // run), plus how many are still pending in the queue.
     let queuePanel = '';
-    if (state.queue && (state.queue.running || (state.queue.items && state.queue.items.length > 0))) {
-        const q = state.queue;
+    const qRunning = (state.queue && state.queue.running_tests) || [];
+    const qPending = (state.queue && state.queue.items) || [];
+    if (qRunning.length > 0 || qPending.length > 0) {
         queuePanel = `
         <div class="card p-4 mb-6 border" style="border-color:rgba(124,58,237,0.3);">
             <div class="flex items-center justify-between mb-2">
@@ -1217,8 +1219,8 @@ function renderDashboard() {
                     <button onclick="handleClearQueue()" class="btn btn-ghost btn-sm" style="padding:0.3rem 0.6rem;font-size:0.75rem;">Clear</button>
                 </div>
             </div>
-            ${q.current ? `<div class="text-xs mb-1" style="color:#10b981;">Running: <a href="#/services/${q.current.service_id}/run" style="color:#10b981;text-decoration:underline;">${esc(q.current.name)}</a></div>` : ''}
-            ${q.items && q.items.length > 0 ? `<div class="text-xs" style="color:var(--text-muted);">Pending: ${q.items.length} test(s)</div>` : ''}
+            ${qRunning.map(t => `<div class="text-xs mb-1" style="color:#10b981;">Running: <a href="#/services/${t.service_id}/${t.kind === 'capacity' ? 'capacity' : 'run'}" style="color:#10b981;text-decoration:underline;">${esc(t.name)}</a></div>`).join('')}
+            ${qPending.length > 0 ? `<div class="text-xs" style="color:var(--text-muted);">Pending: ${qPending.length} test(s)</div>` : ''}
         </div>`;
     }
 
@@ -2484,7 +2486,10 @@ function renderTestHistory(serviceId, history, compareBtn) {
     <div class="mt-8">
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold" style="color:var(--text);">Test History</h3>
-            ${compareBtn || ''}
+            <div class="flex items-center gap-2">
+                ${compareBtn || ''}
+                ${history && history.length > 0 ? `<button onclick="handleClearHistory('${serviceId}')" class="btn btn-ghost btn-sm" title="Delete all results and capacity runs for this service">${svgIcon('trash')}<span>Clear history</span></button>` : ''}
+            </div>
         </div>
         <div class="card overflow-hidden">
             <table class="w-full text-sm">
@@ -4941,17 +4946,18 @@ async function renderQueuePage() {
     const q = state.queue || {};
     if (q.running || (q.items && q.items.length > 0)) startQueuePolling();
 
-    const cur = q.current;
-    const runningHtml = (q.running && cur) ? `
+    const runningTests = q.running_tests || [];
+    const runningHtml = runningTests.length > 0 ? `
     <div class="card p-5 mb-6" style="border-color:rgba(16,185,129,0.3);">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="pulse-dot"></div>
-                <h3 class="text-sm font-semibold" style="color:#10b981;">Currently Running</h3>
-            </div>
-            <a href="#/services/${cur.service_id}/run" class="btn btn-ghost btn-sm">View Live</a>
+        <div class="flex items-center gap-3 mb-3">
+            <div class="pulse-dot"></div>
+            <h3 class="text-sm font-semibold" style="color:#10b981;">Currently Running (${runningTests.length})</h3>
         </div>
-        <div class="text-sm font-mono mt-2" style="color:var(--text);">${esc(cur.name)}</div>
+        ${runningTests.map(t => `
+        <div class="flex items-center justify-between py-1">
+            <div class="text-sm font-mono" style="color:var(--text);">${esc(t.name)}</div>
+            <a href="#/services/${t.service_id}/${t.kind === 'capacity' ? 'capacity' : 'run'}" class="btn btn-ghost btn-sm">View Live</a>
+        </div>`).join('')}
     </div>` : '';
 
     const pending = q.items || [];
@@ -6545,6 +6551,18 @@ async function handleDeleteResult(serviceId, resultId) {
         toast('Result deleted.', 'success');
         await router();
     } catch (err) { toast('Delete failed: ' + err.message, 'error'); }
+}
+
+// Reset a service to its freshly-created state: delete every stored result and
+// capacity run, keeping the service's configuration.
+async function handleClearHistory(serviceId) {
+    const confirmed = await confirmModal('Clear history', 'Delete all test results and capacity runs for this service? Its configuration is kept. This cannot be undone.', { confirmLabel: 'Clear history', confirmClass: 'btn-danger' });
+    if (!confirmed) return;
+    try {
+        await api(`/api/services/${serviceId}/history`, { method: 'DELETE' });
+        toast('History cleared.', 'success');
+        await router();
+    } catch (err) { toast('Clear failed: ' + err.message, 'error'); }
 }
 
 // ============================================

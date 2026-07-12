@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-12
+
+### Added
+
+- **Clear history** — a service page button that deletes all of a service's
+  test results and capacity-probe runs, resetting it to its freshly-created
+  state while keeping its configuration.
+
+### Fixed
+
+- The dashboard and queue now list **every** concurrently running test, not
+  just one. Running several tests at once previously surfaced only the first.
+
 ### Internal
 
 - Added a "How it compares" table to the README (positioning against k6,
@@ -155,7 +168,8 @@ web UI — from a one-line CLI test to answering "can my system survive launch d
 - Multi-tenancy with workspaces; data-retention policy (auto-purge old results).
 - Import/export services as JSON.
 
-[Unreleased]: https://github.com/mertgundoganx/gload/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/mertgundoganx/gload/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/mertgundoganx/gload/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/mertgundoganx/gload/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/mertgundoganx/gload/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/mertgundoganx/gload/releases/tag/v1.0.0

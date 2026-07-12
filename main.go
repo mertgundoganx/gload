@@ -27,7 +27,7 @@ import (
 
 // Version is the release version. Release builds override it via
 // -ldflags "-X main.Version=<tag>"; this is the fallback for plain `go build`.
-var Version = "1.0.2"
+var Version = "1.1.0"
 
 func main() {
 	// Check --version before config.Parse (which calls flag.Parse internally)
