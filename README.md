@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/demo.webp" alt="gload web UI — a live load test streaming real-time RPS and latency charts, then an auto-ramping capacity probe" width="900">
+  <img src="docs/demo.png" alt="gload web dashboard — three services with live RPS, latency, and error-rate metrics" width="900">
 </p>
 
 ---
