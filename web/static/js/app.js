@@ -284,10 +284,13 @@ function getRoute() {
     const p = hash.replace('#', '').split('/').filter(Boolean);
     if (p.length === 0) return { page: 'dashboard' };
     if (p[0] === 'services' && p[1] === 'new') return { page: 'new-service' };
-    if (p[0] === 'services' && p[2] === 'run') return { page: 'running', id: p[1] };
-    if (p[0] === 'services' && p[2] === 'capacity') return { page: 'capacity', id: p[1] };
-    if (p[0] === 'services' && p[2] === 'edit') return { page: 'edit-service', id: p[1] };
-    if (p[0] === 'services' && p[1]) return { page: 'service', id: p[1] };
+    // Service ids are numeric DB ids; coerce to a number so a crafted hash
+    // (e.g. #/services/<img src=x onerror=...>) can never flow into the DOM as markup.
+    const id = Number(p[1]);
+    if (p[0] === 'services' && p[2] === 'run') return { page: 'running', id };
+    if (p[0] === 'services' && p[2] === 'capacity') return { page: 'capacity', id };
+    if (p[0] === 'services' && p[2] === 'edit') return { page: 'edit-service', id };
+    if (p[0] === 'services' && p[1]) return { page: 'service', id };
     if (p[0] === 'settings') return { page: 'settings' };
     if (p[0] === 'queue') return { page: 'queue' };
     if (p[0] === 'schedules') return { page: 'schedules' };

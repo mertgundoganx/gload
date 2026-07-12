@@ -196,6 +196,10 @@ type Runner struct {
 // validation/extraction so a large target response cannot exhaust memory.
 const maxValidationBody = 10 << 20 // 10 MiB
 
+// maxRateLimiterBuffer caps the rate-limiter channel buffer so an absurd RPS
+// can't trigger a huge allocation. It bounds only the burst buffer, not the rate.
+const maxRateLimiterBuffer = 100_000
+
 // timingSampleRate controls how often per-request timing (DNS/TCP/TLS/TTFB)
 // tracing is attached. Tracing allocates per request, so we sample ~1/N of
 // requests; the reported breakdown is an average over the sampled requests.
@@ -480,7 +484,13 @@ func startRateLimiter(ctx context.Context, rps int) (tokens <-chan struct{}, sto
 		return nil, func() {}
 	}
 
-	ch := make(chan struct{}, rps)
+	// Bound the buffer so an absurd RPS can't trigger a huge allocation. The
+	// buffer only smooths bursts; the ticker below still emits at the full rate.
+	bufSize := rps
+	if bufSize > maxRateLimiterBuffer {
+		bufSize = maxRateLimiterBuffer
+	}
+	ch := make(chan struct{}, bufSize)
 	interval := time.Second / time.Duration(rps)
 	ticker := time.NewTicker(interval)
 

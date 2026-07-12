@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-07-12
+
+### Security
+
+- Fixed a DOM-based XSS where a crafted URL hash (e.g.
+  `#/services/<markup>`) could inject markup through the client-side router.
+  Service ids parsed from the route are now coerced to numbers before use.
+- Bounded the rate-limiter's channel buffer so an extreme requests-per-second
+  value can no longer trigger an oversized allocation.
+
+### Internal
+
+- Bumped GitHub Actions to their Node 24 runtimes (`golangci-lint-action` v9,
+  `docker/*` v4–v7) to clear the Node 20 deprecation warnings.
+- Added a unit test covering the rate-limiter buffer clamp.
+
 ## [1.0.1] - 2026-07-12
 
 ### Changed
@@ -133,6 +149,7 @@ web UI — from a one-line CLI test to answering "can my system survive launch d
 - Multi-tenancy with workspaces; data-retention policy (auto-purge old results).
 - Import/export services as JSON.
 
-[Unreleased]: https://github.com/mertgundoganx/gload/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/mertgundoganx/gload/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/mertgundoganx/gload/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/mertgundoganx/gload/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/mertgundoganx/gload/releases/tag/v1.0.0
