@@ -18,12 +18,12 @@ import (
 	"github.com/mertgundoganx/gload/internal/storage"
 	"github.com/mertgundoganx/gload/web"
 
-	"nhooyr.io/websocket"
-	"nhooyr.io/websocket/wsjson"
+	"github.com/coder/websocket"
+	"github.com/coder/websocket/wsjson"
 )
 
 // AppVersion is set from main to expose via the /api/version endpoint.
-var AppVersion = "1.0.0"
+var AppVersion = "1.0.1"
 
 type runState struct {
 	runner   *runner.Runner

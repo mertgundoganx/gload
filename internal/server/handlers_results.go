@@ -202,7 +202,7 @@ func (s *Server) junitService(w http.ResponseWriter, _ *http.Request, id int64) 
 			Actual   float64 `json:"actual"`
 			Passed   bool    `json:"passed"`
 		}
-		json.Unmarshal([]byte(last.AssertionResults), &raw)
+		_ = json.Unmarshal([]byte(last.AssertionResults), &raw)
 		for _, r := range raw {
 			assertions = append(assertions, junit.AssertionResult{
 				Metric: r.Metric, Operator: r.Operator,
@@ -229,7 +229,7 @@ func (s *Server) junitService(w http.ResponseWriter, _ *http.Request, id int64) 
 
 	w.Header().Set("Content-Type", "application/xml")
 	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s-junit.xml\"", svc.Name))
-	junit.GenerateFromAssertions(w, svc.Name, dur, assertions)
+	_ = junit.GenerateFromAssertions(w, svc.Name, dur, assertions)
 }
 
 // ---------- share ----------
@@ -517,7 +517,7 @@ func generateCompareHTML(entries []compareEntry) string {
 	cfgOf := func(r *storage.TestResult) runCfg {
 		var c runCfg
 		if r.RunConfig != "" {
-			json.Unmarshal([]byte(r.RunConfig), &c)
+			_ = json.Unmarshal([]byte(r.RunConfig), &c)
 		}
 		return c
 	}
@@ -688,7 +688,7 @@ func (s *Server) postGitHubComment(w http.ResponseWriter, _ *http.Request, id in
 			Actual   float64 `json:"actual"`
 			Passed   bool    `json:"passed"`
 		}
-		json.Unmarshal([]byte(last.AssertionResults), &raw)
+		_ = json.Unmarshal([]byte(last.AssertionResults), &raw)
 		for _, a := range raw {
 			assertions = append(assertions, ghub.AssertionResult{
 				Metric: a.Metric, Operator: a.Operator,

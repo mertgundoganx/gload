@@ -296,7 +296,7 @@ func (s *Server) updateSchedule(w http.ResponseWriter, r *http.Request, id int64
 		if *body.Enabled {
 			if sched, _ := s.store.GetSchedule(id); sched != nil {
 				next := scheduler.NextCronTime(sched.CronExpr, time.Now())
-				s.store.SetScheduleNextRun(id, &next)
+				_ = s.store.SetScheduleNextRun(id, &next)
 			}
 		}
 	}

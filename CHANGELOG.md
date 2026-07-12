@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.0.1] - 2026-07-12
+
+### Changed
+
+- Migrated the WebSocket library from the deprecated `nhooyr.io/websocket` to
+  its maintained successor `github.com/coder/websocket` (drop-in, no behavior
+  change).
+
+### Internal
+
+- Replaced numeric HTTP status literals with `http.StatusMethodNotAllowed` and
+  removed an unused interface (staticcheck cleanups).
+- Added a `.golangci.yml` config and made the codebase pass `golangci-lint`
+  cleanly: intentionally-ignored errors are now explicit (`_ =`) and
+  stylistic-only checks are quieted.
+- Wired `golangci-lint` into GitHub Actions CI as a dedicated `lint` job.
+
 ## [1.0.0] - 2026-07-12
 
 First public release. gload is a high-performance HTTP load tester with a full
@@ -114,4 +133,6 @@ web UI — from a one-line CLI test to answering "can my system survive launch d
 - Multi-tenancy with workspaces; data-retention policy (auto-purge old results).
 - Import/export services as JSON.
 
+[Unreleased]: https://github.com/mertgundoganx/gload/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/mertgundoganx/gload/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/mertgundoganx/gload/releases/tag/v1.0.0
